@@ -37,11 +37,15 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+origins = [
+    "https://peerport.netlify.app/"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -54,4 +58,10 @@ async def root():
         "title": app.title,
         "description": app.description,
         "version": app.version,
+    }
+
+@app.get("/health-check")
+async def health_check():
+    return {
+        "status": "ok"
     }
