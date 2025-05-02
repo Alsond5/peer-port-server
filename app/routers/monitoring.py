@@ -1,9 +1,11 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.services.peer_manager import peer_manager
+from app.dependencies import verify_admin_token
 
 router = APIRouter(
     prefix="/monitoring",
-    tags=["monitoring"]
+    tags=["monitoring"],
+    dependencies=[Depends(verify_admin_token)]
 )
 
 @router.get("/health")
